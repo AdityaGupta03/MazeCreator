@@ -1,2 +1,2 @@
 # MazeCreator
-Application which allows the user to create and solve mazes.
+An application that allows a user to create and solve mazes.
