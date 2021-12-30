@@ -22,6 +22,10 @@ public class Response {
             this.errorMessage = errorMessage;
     }
 
+    public Response(boolean error) {
+        this.error = error;
+    }
+
     public boolean isError() {
         return error;
     }

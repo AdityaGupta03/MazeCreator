@@ -1,5 +1,7 @@
 package View;
 
+import Core.Client;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,6 +11,8 @@ import java.awt.event.ActionListener;
  * Class which displays and handles the login/signup for the application
  */
 public class LoginView extends JComponent implements Runnable {
+    private boolean loggedIn;
+
     JLabel welcomeText;
     JLabel enterUsernameL;
     JLabel enterPasswordL;
@@ -24,19 +28,29 @@ public class LoginView extends JComponent implements Runnable {
     JTextField sUsername = new JTextField(10);
     JTextField lPassword = new JTextField(10);
     JTextField sPassword = new JTextField(10);
-    JTextField name = new JTextField(10);
+    JTextField sName = new JTextField(10);
 
     LoginView loginView;
 
-    ActionListener actionListener = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-        }
-    };
-
     public LoginView() {
+        this.loggedIn = false;
+    }
 
+    private void login(String username, String password) {
+        System.out.println("login");
+        Client.controller.login(username, password);
+    }
+
+    private void signup(String name, String username, String password) {
+        Client.controller.signup(name, username, password);
+    }
+
+    private boolean isLoggedIn() {
+        return loggedIn;
+    }
+
+    private void setLoggedIn(boolean loggedIn) {
+        this.loggedIn = loggedIn;
     }
 
     public void run() {
@@ -102,7 +116,7 @@ public class LoginView extends JComponent implements Runnable {
 
         JPanel signupName = new JPanel();
         signupName.add(enterName);
-        signupName.add(name);
+        signupName.add(sName);
         signupPanel.add(signupName);
 
         JPanel signupUsername = new JPanel();
@@ -127,8 +141,27 @@ public class LoginView extends JComponent implements Runnable {
         optionPanel.setPreferredSize(new Dimension(950, 500));
         optionPanel.setMaximumSize(new Dimension(950, 500));
 
-        loginButton.addActionListener(actionListener);
-        signupButton.addActionListener(actionListener);
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String username = lUsername.getText();
+                String password = lPassword.getText();
+                loginView.login(username, password);
+            }
+        });
+        signupButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String name = sName.getText();
+                String username = sUsername.getText();
+                String password = sPassword.getText();
+                loginView.signup(name, username, password);
+            }
+        });
+    }
+
+    public static void start() {
+        SwingUtilities.invokeLater(new LoginView());
     }
 
     public static void main(String[] args) {
