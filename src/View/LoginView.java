@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLOutput;
 
 /**
  * Class which displays and handles the login/signup for the application
@@ -37,8 +38,13 @@ public class LoginView extends JComponent implements Runnable {
     }
 
     private void login(String username, String password) {
-        System.out.println("login");
-        Client.controller.login(username, password);
+        System.out.printf("Login Attempted\nUsername: %s\nPassword: %s\n", username, password);
+        try {
+            Client.controller.login(username, password);
+        } catch (Exception e) {
+            //TODO: Add Execption Catching
+            System.out.println("Empty Fields");
+        }
     }
 
     private void signup(String name, String username, String password) {
