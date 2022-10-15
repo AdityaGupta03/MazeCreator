@@ -1,5 +1,8 @@
 package Model;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 /**
  * Class that models requests sent from client to server
  */
@@ -31,5 +34,15 @@ public class Request {
 
     public void setParameters(Object[] parameters) {
         this.parameters = parameters;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Request request = (Request) o;
+        return Objects.equals(methodName, request.methodName) && Arrays.equals(parameters, request.parameters);
     }
 }

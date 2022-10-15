@@ -14,4 +14,8 @@ public class LoginService {
     public void setLoggedIn(boolean loggedIn) {
         this.loggedIn = loggedIn;
     }
+
+    public static boolean login(String username, String password) {
+        return false;
+    }
 }

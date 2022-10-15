@@ -42,6 +42,8 @@ public class Controller {
 
     public boolean login(String username, String password) {
         String[] parameters = {username, password};
+        System.out.println(username);
+        System.out.println(password);
         Request request = new Request("login", parameters);
         boolean writeSuccess = this.sendRequest(request);
         if (!writeSuccess)

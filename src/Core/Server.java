@@ -1,5 +1,9 @@
 package Core;
 
+import Model.Request;
+import Model.Response;
+import Service.Service;
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
@@ -26,6 +30,7 @@ public class Server {
 
     public static class UserThread implements Runnable {
         private Socket clientSocket;
+        private Service service;
 
         public UserThread(Socket clientSocket) {
             this.clientSocket = clientSocket;
@@ -35,9 +40,13 @@ public class Server {
             try {
                 ObjectInputStream ois = new ObjectInputStream(this.clientSocket.getInputStream());
                 ObjectOutputStream oos = new ObjectOutputStream(this.clientSocket.getOutputStream());
+
+                this.service = new Service();
+
                 oos.flush();
                 while (true) {
-                    String clientInput = (String) ois.readObject();
+                    Request clientRequest = (Request) ois.readObject();
+                    this.service.execute(clientRequest);
                 }
             } catch (Exception e) {
                 System.out.println("Failed user thread.");
